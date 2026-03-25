@@ -27,3 +27,7 @@ The system includes features such as:
 - Python 3.12+ (for development without Docker)
 
 ---
+
+> ⚠️ **Work in Progress:** This project is currently under development.
+> Some features may not be fully implemented yet and the API is still being tested.
+> Contributions and feedback are welcome.
