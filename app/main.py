@@ -177,7 +177,7 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
         if not conditions:
             query = "SELECT * FROM products ORDER BY id DESC"
         else:
-            query = "SELECT * FROM products WHERE ORDER BY id DESC " + " AND ".join(conditions)
+            query = "SELECT * FROM products WHERE  " + " AND ".join(conditions) + "ORDER BY id DESC"
 
         if values:
             cur.execute(query, tuple(values))
