@@ -1,40 +1,19 @@
 
 
+from fastapi import APIRouter, HTTPException
+from app.database import get_connection
+from app.schemas import ProductCreate, ProductUpdate, StockUpdate
 
-
-#Creates products table (if not exist)
-
-def create_products_table():
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute(
-        """
-        CREATE TABLE IF NOT EXISTS products (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            description TEXT NOT NULL,
-            price NUMERIC (10, 2) NOT NULL,
-            stock_quantity INTEGER NOT NULL
-        )
-        """
-    )
-
-    conn.commit()
-    cur.close()
-    conn.close()
-
-#Δημιουργία Πίνακα όταν ξεκινάει το app
-create_products_table()
+router = APIRouter(prefix="/products", tags=["Products"])
 
 #ROOT endpoint
-@app.get("/")
+@router.get("/")
 def home():
     return {"message": "Warehouse API is running!"}
 
 #CREATE product
 
-@app.post("/products")
+@router.post("/products")
 def create_product(product: ProductCreate):
     try:
         conn = get_connection()
@@ -68,14 +47,14 @@ def create_product(product: ProductCreate):
                 "stock_quantity": product.stock_quantity
             }
         }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 #READ ALL PRODUCTS
-@app.get("/products")
+@router.get("/products")
 def get_products():
     try:
         conn = get_connection()
@@ -94,7 +73,7 @@ def get_products():
         products = []
 
         for row in rows:
-            products.append({
+            products.routerend({
                 "id": row[0],
                 "name": row[1],
                 "description": row[2],
@@ -102,7 +81,7 @@ def get_products():
                 "stock_quantity": row[4]
             })
         return {"products": products}
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
@@ -110,7 +89,7 @@ def get_products():
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 #SEARCH PRODUCT
-@app.get("/products/search")
+@router.get("/products/search")
 def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
 
     try:
@@ -121,12 +100,12 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
         values = []
 
         if name is not None:
-            conditions.append("name iLIKE %s")
-            values.append(f"%{name}%")
+            conditions.routerend("name iLIKE %s")
+            values.routerend(f"%{name}%")
         if in_stock is True:
-            conditions.append("stock_quantity > 0")
+            conditions.routerend("stock_quantity > 0")
         if in_stock is False:
-            conditions.append("stock_quantity = 0")
+            conditions.routerend("stock_quantity = 0")
 
 
         if not conditions:
@@ -147,7 +126,7 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
         products = []
 
         for row in rows:
-            products.append({
+            products.routerend({
                 "id": row[0],
                 "name": row[1],
                 "description": row[2],
@@ -156,7 +135,7 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
             })
         return {"products": products}
 
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
@@ -165,7 +144,7 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
 
 
 #READ ONE PRODUCT
-@app.get("/products/{product_id}")
+@router.get("/products/{product_id}")
 def get_product(product_id: int):
     try:
         conn = get_connection()
@@ -191,14 +170,14 @@ def get_product(product_id: int):
                 "price": float(row[3]),
                 "stock_quantity": row[4]
             }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 #UPDATE PRODUCT
-@app.put("/products/{product_id}")
+@router.put("/products/{product_id}")
 def update_product(product_id: int, product: ProductUpdate):
     try:
         conn = get_connection()
@@ -208,24 +187,24 @@ def update_product(product_id: int, product: ProductUpdate):
         values = []
 
         if product.name is not None:
-            fields.append("name = %s")
-            values.append(product.name)
+            fields.routerend("name = %s")
+            values.routerend(product.name)
         if product.description is not None:
-            fields.append("description = %s")
-            values.append(product.description)
+            fields.routerend("description = %s")
+            values.routerend(product.description)
         if product.price is not None:
-            fields.append("price = %s")
-            values.append(product.price)
+            fields.routerend("price = %s")
+            values.routerend(product.price)
         if product.stock_quantity is not None:
-            fields.append("stock_quantity = %s")
-            values.append(product.stock_quantity)
+            fields.routerend("stock_quantity = %s")
+            values.routerend(product.stock_quantity)
 
         if not fields:
             raise HTTPException(status_code=400, detail="No fields provided to update")
 
 
         sql = f"UPDATE products SET {', '.join(fields)} WHERE id = %s RETURNING *"
-        values.append(product_id)
+        values.routerend(product_id)
 
         cur.execute(sql, tuple(values))
         row = cur.fetchone()
@@ -246,7 +225,7 @@ def update_product(product_id: int, product: ProductUpdate):
                 "stock_quantity": row[4]
             }
         }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
@@ -255,7 +234,7 @@ def update_product(product_id: int, product: ProductUpdate):
 
 #DELETE PRODUCT
 
-@app.delete("/products/{product_id}")
+@router.delete("/products/{product_id}")
 def delete_product(product_id: int):
     try:
         conn = get_connection()
@@ -286,14 +265,14 @@ def delete_product(product_id: int):
                 "stock_quantity": row[4]
             }
         }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
-@app.patch("/products/{product_id}/stock")
+@router.patch("/products/{product_id}/stock")
 def update_stock(product_id:int, stock: StockUpdate):
     try:
         conn = get_connection()
@@ -339,14 +318,14 @@ def update_stock(product_id:int, stock: StockUpdate):
 
             }
         }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
-@app.get("/products/stats")
+@router.get("/products/stats")
 def get_stats():
     try:
         conn = get_connection()
@@ -377,7 +356,7 @@ def get_stats():
             "max_price": float(stats[5]) if stats[5] is not None else 0,
             "min_price": float(stats[6]) if stats[6] is not None else 0
         }
-    except pg.Error as e:
+    except Exception as e:
         if cur:
             cur.close()
         if conn:
