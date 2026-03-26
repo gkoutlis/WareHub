@@ -70,3 +70,46 @@ def create_suppliers_table():
 
 #Δημιουργία Πίνακα όταν ξεκινάει το app
 create_suppliers_table()
+
+#CREATE SUPPLIER
+
+@app.post("/suppliers")
+def create_supplier(supplier: SupplierCreate):
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+                INSERT INTO suppliers (name,email,phone,company_name)
+                VALUES(%s, %s, %s, %s)
+                RETURNING id
+                """, (supplier.name,
+                      supplier.email,
+                      supplier.phone,
+                      supplier.company_name
+                ))
+        
+        new_id = cur.fetchone()[0]
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return{
+            "message": "Supplier created successfully",
+            "supplier": {
+                "id": new_id,
+                "name": supplier.name,
+                "email": supplier.email,
+                "phone": supplier.phone,
+                "company_name": supplier.company_name
+            }
+        }
+    except pg.Error as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+    
