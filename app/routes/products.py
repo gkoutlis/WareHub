@@ -1,15 +1,13 @@
 
 
 from fastapi import APIRouter, HTTPException
+from typing import Optional
 from app.database import get_connection
 from app.schemas import ProductCreate, ProductUpdate, StockUpdate
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
-#ROOT endpoint
-@router.get("/")
-def home():
-    return {"message": "Warehouse API is running!"}
+
 
 #CREATE product
 
@@ -271,7 +269,8 @@ def delete_product(product_id: int):
         if conn:
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
-
+    
+#UPDATE STOCK
 @router.patch("/products/{product_id}/stock")
 def update_stock(product_id:int, stock: StockUpdate):
     try:
@@ -325,6 +324,7 @@ def update_stock(product_id:int, stock: StockUpdate):
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
+#GET STATS
 @router.get("/products/stats")
 def get_stats():
     try:

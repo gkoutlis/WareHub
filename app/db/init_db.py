@@ -26,10 +26,9 @@ def create_suppliers_table():
         CREATE TABLE IF NOT EXISTS suppliers (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
-            contact_name VARCHAR(100),
-            phone VARCHAR(20),
             email VARCHAR(100),
-            address TEXT
+            phone VARCHAR(20),
+            tax_id VARCHAR(9) UNIQUE NOT NULL
         )
     """)
 
