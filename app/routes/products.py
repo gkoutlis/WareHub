@@ -19,13 +19,14 @@ def create_product(product: ProductCreate):
 
         cur.execute(
             """
-            INSERT INTO products (name, description, price, stock_quantity)
+            INSERT INTO products (name, description, price, stock_quantity, supplier_id)
             VALUES (%s, %s, %s, %s)
             RETURNING id
         """, (product.name,
               product.description,
               product.price,
-              product.stock_quantity
+              product.stock_quantity,
+              product.supplier_id
 
         ))
 
