@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import Optional
 from app.database import get_connection
-from app.schemas import SupplierCreate, SupplierUpdate
+from app.schemas import OrderCreate, OrderUpdate
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 

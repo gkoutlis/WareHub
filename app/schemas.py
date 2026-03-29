@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 # PRODUCTS
 class ProductCreate(BaseModel):
@@ -23,26 +24,26 @@ class SupplierCreate(BaseModel):
     name: str
     phone: Optional[str] = None
     email: Optional[str] = None
-    tax_id: Optional[int] = None
+    tax_id: str
 
 class SupplierUpdate(BaseModel):
     name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[str] = None
-    tax_id: Optional[int] = None
+    tax_id: Optional[str] = None
 
 
 #ORDERS
 class OrderCreate(BaseModel):
     customer_name: str
-    product_id: Optional[int] = None
-    quantity: Optional[int] = None
+    product_id: int
+    quantity: int
     status: Optional[str] = None
-    created_at: Optional[str] = None
+    created_at: Optional[datetime] = None
 
 class OrderUpdate(BaseModel):
-    customer_name: str
+    customer_name: Optional[str] = None
     product_id: Optional[int] = None
     quantity: Optional[int] = None
     status: Optional[str] = None
-    created_at: Optional[str] = None
+    created_at: Optional[datetime] = None
