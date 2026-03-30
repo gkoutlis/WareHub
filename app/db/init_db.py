@@ -48,11 +48,12 @@ def create_orders_table():
     cur.execute("""
         CREATE TABLE orders (
             id SERIAL PRIMARY KEY,
-            costumer_name VARCHAR(100) NOT NULL
+            customer_name VARCHAR(100) NOT NULL,
             product_id INTEGER NOT NULL,
             quantity INTEGER NOT NULL CHECK (quantity > 0),
             status VARCHAR(30) NOT NULL DEFAULT 'pending',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            CHECK (status IN ('pending', 'completed', 'cancelled')),
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             CONSTRAINT fk_orders_product
                 FOREIGN KEY (product_id)
                 REFERENCES products(id)

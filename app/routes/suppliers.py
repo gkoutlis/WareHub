@@ -76,7 +76,7 @@ def get_suppliers():
             })
         return {"suppliers":suppliers}
     except Exception as e:
-        conn.rollback()
+        
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
     finally:
         if cur:
@@ -156,8 +156,7 @@ def get_supplier(supplier_id: int):
                     """, (supplier_id,))
 
         row = cur.fetchone()
-        cur.close()
-        conn.close()
+        
 
         if row is None:
             raise HTTPException(status_code=404, detail="Product not found")

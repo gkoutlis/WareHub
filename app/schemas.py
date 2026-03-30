@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
-from datetime import datetime
+from enum import Enum
 
 # PRODUCTS
 class ProductCreate(BaseModel):
@@ -34,16 +34,22 @@ class SupplierUpdate(BaseModel):
 
 
 #ORDERS
+
+class OrderStatus(str, Enum):
+    pending = "pending"
+    completed = "completed"
+    cancelled = "cancelled"
 class OrderCreate(BaseModel):
     customer_name: str
     product_id: int
-    quantity: int
-    status: Optional[str] = None
-    created_at: Optional[datetime] = None
+    quantity: int = Field(gt=0)
+    status: OrderStatus = OrderStatus.pending
+    
 
 class OrderUpdate(BaseModel):
     customer_name: Optional[str] = None
     product_id: Optional[int] = None
-    quantity: Optional[int] = None
-    status: Optional[str] = None
-    created_at: Optional[datetime] = None
+    quantity: Optional[int] = Field(default=None, gt=0) 
+    status: Optional[OrderStatus] = None
+    
+
