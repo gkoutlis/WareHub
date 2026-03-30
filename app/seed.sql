@@ -1,29 +1,56 @@
-CREATE TABLE IF NOT EXISTS products (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT,
-    price NUMERIC(10,2),
-    stock_quantity INT
-);
+-- ===========================
+-- WareHub Seed Data
+-- ===========================
 
-INSERT INTO products (name, description, price, stock_quantity) VALUES
-('Apple MacBook Pro 16', 'Laptop με Apple M2 Pro, 16GB RAM, 512GB SSD', 2499.99, 10),
-('Dell XPS 13', 'Ultrabook με Intel i7, 16GB RAM, 512GB SSD', 1499.99, 15),
-('HP Spectre x360', '2-in-1 Laptop με Intel i7, 16GB RAM, 1TB SSD', 1699.99, 8),
-('Samsung Galaxy S23', 'Smartphone 256GB, 8GB RAM, AMOLED display', 899.99, 25),
-('iPhone 15 Pro', 'Apple iPhone 15 Pro 128GB, A17 chip, OLED display', 1199.99, 20),
-('Sony WH-1000XM5', 'Ασύρματα ακουστικά με Noise Cancelling', 399.99, 30),
-('Logitech MX Master 3', 'Επαγγελματικό ασύρματο ποντίκι', 99.99, 50),
-('Razer BlackWidow V3', 'Gaming keyboard με RGB φωτισμό', 149.99, 20),
-('Samsung 34'' Curved Monitor', 'Ultra-wide monitor για επαγγελματική χρήση', 599.99, 12),
-('NVIDIA RTX 4070 Ti', 'Κάρτα γραφικών υψηλής απόδοσης για gaming και AI', 899.99, 5),
-('Intel Core i9-14900K', 'CPU για high-end desktops, 24 cores', 799.99, 7),
-('Corsair Vengeance 32GB', 'RAM DDR5 6000MHz για gaming και επαγγελματικά PCs', 199.99, 25),
-('Samsung 2TB NVMe SSD', 'Υψηλής ταχύτητας αποθήκευση για PC/Laptop', 249.99, 18),
-('Apple iPad Pro 12.9', 'Tablet με M2 chip, 256GB, Liquid Retina XDR', 1099.99, 15),
-('Amazon Echo Dot (5th Gen)', 'Smart speaker με Alexa', 49.99, 40),
-('Google Nest Hub 2', 'Smart display για σπίτι με Google Assistant', 99.99, 25),
-('DJI Mini 4 Drone', 'Φορητό drone με 4K camera', 499.99, 10),
-('GoPro HERO12 Black', 'Action camera με 5K video recording', 449.99, 15),
-('Microsoft Surface Laptop 5', 'Laptop με Intel i7, 16GB RAM, 512GB SSD', 1299.99, 8),
-('Anker PowerCore 20000', 'Power bank 20000mAh για γρήγορη φόρτιση', 49.99, 35);
+-- =====================================
+-- 1. Suppliers
+-- =====================================
+INSERT INTO suppliers (name, contact_email, phone_number)
+VALUES
+('Acme Electronics', 'sales@acme.com', '2101234567'),
+('Global Gadgets', 'info@globalgadgets.com', '2102345678'),
+('TechNova', 'contact@technova.com', '2103456789'),
+('Smart Solutions', 'support@smartsolutions.com', '2104567890'),
+('Green Supplies', 'hello@greensupplies.com', '2105678901'),
+('DigitalWorld', 'sales@digitalworld.com', '2106789012'),
+('FutureTech', 'contact@futuretech.com', '2107890123'),
+('Alpha Industries', 'info@alphaindustries.com', '2108901234'),
+('Omega Electronics', 'sales@omega.com', '2109012345'),
+('NextGen Components', 'contact@nextgen.com', '2100123456');
+
+-- =====================================
+-- 2. Products
+-- =====================================
+INSERT INTO products (name, description, price, stock_quantity, supplier_id)
+VALUES
+('Wireless Mouse', 'Ergonomic wireless mouse', 25.99, 100, 1),
+('Mechanical Keyboard', 'RGB mechanical keyboard', 89.50, 50, 2),
+('HD Webcam', '1080p webcam with mic', 45.00, 70, 3),
+('USB-C Hub', 'Multiport USB-C hub', 29.99, 120, 4),
+('External SSD 1TB', 'Fast external SSD', 150.00, 30, 5),
+('Gaming Headset', 'Surround sound gaming headset', 75.00, 40, 6),
+('Portable Charger', '10000mAh power bank', 35.00, 80, 7),
+('Smartwatch', 'Fitness tracker smartwatch', 120.00, 25, 8),
+('Wireless Earbuds', 'Bluetooth earbuds with case', 60.00, 60, 9),
+('Laptop Stand', 'Adjustable aluminum stand', 40.00, 90, 10);
+
+-- =====================================
+-- 3. Orders
+-- =====================================
+-- Status can be 'pending', 'completed', 'cancelled'
+INSERT INTO orders (customer_name, product_id, quantity, status)
+VALUES
+('John Doe', 1, 2, 'pending'),
+('Jane Smith', 3, 1, 'completed'),
+('Michael Brown', 5, 1, 'completed'),
+('Emily Davis', 2, 1, 'cancelled'),
+('David Wilson', 4, 3, 'pending'),
+('Sarah Johnson', 6, 2, 'completed'),
+('Chris Lee', 7, 1, 'pending'),
+('Anna White', 8, 1, 'pending'),
+('James Martin', 9, 2, 'completed'),
+('Laura Scott', 10, 1, 'pending');
+
+-- =====================================
+-- End of Seed
+-- =====================================
