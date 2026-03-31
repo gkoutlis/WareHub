@@ -46,18 +46,14 @@ This project is a **Warehouse Management System (WMS)** 🏭 designed as a portf
 
 Start the application and database with:
 
-```bash
+
 docker compose up --build
 
 
-Start the FastAPI development server with:
 
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+Once the server is running, open:
 
-  Once the server is running, open:
-
-  Swagger UI: http://localhost:8000/docs
+Swagger UI: http://localhost:8000/docs
 
 
 > ⚠️ **Work in Progress:** This project is currently under development.
