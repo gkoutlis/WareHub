@@ -11,7 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./app/seed.sql:/docker-entrypoint-initdb.d/seed.sql  # seed file για πρώτη εκκίνηση
+      #- ./app/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5  # seed file για πρώτη εκκίνηση
 
   web:
     build: ./app

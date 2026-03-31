@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from psycopg2.extras import RealDictCursor
-from app.database import get_connection
-from app.schemas import OrderCreate, OrderUpdate, OrderStatus
+from database import get_connection
+from schemas import OrderCreate, OrderUpdate, OrderStatus
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 

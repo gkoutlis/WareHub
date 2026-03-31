@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
-from app.routes.products import router as products_router
-from app.routes.suppliers import router as suppliers_router
-from app.routes.orders import router as orders_router
-from app.db.init_db import init_db
+from routes.products import router as products_router
+from routes.suppliers import router as suppliers_router
+from routes.orders import router as orders_router
+from db.init_db import init_db
 
 app = FastAPI(title="WareHub API")
 

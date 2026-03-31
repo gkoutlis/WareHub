@@ -14,15 +14,24 @@ DB_PORT = os.getenv("DB_PORT")
 if DB_PORT is None:
     raise ValueError("DB_PORT is missing from environment variables")
 
+import time
+import psycopg2 as pg
+from fastapi import HTTPException
+
 def get_connection():
-    try:
-        conn = pg.connect(
-            database=DB_NAME,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=int(DB_PORT)
-        )
-        return conn
-    except pg.Error as e:
-        raise HTTPException(status_code=500, detail=f"Database connection error: {e}")
+    retries = 5
+    while retries > 0:
+        try:
+            conn = pg.connect(
+                dbname="warehub_db",
+                user="postgres",
+                password="1234",
+                host="db",
+                port=5432
+            )
+            return conn
+        except Exception as e:
+            retries -= 1
+            print(f"Database not ready, retrying... ({5 - retries}/5)")
+            time.sleep(3)
+    raise HTTPException(status_code=500, detail="Database connection failed after retries")
