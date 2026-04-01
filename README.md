@@ -55,7 +55,9 @@ Once the server is running, open:
 
 Swagger UI: http://localhost:8000/docs
 
+---
 
-> ⚠️ **Work in Progress:** This project is currently under development.
-> Some features may not be fully implemented yet and the API is still being tested.
-> Contributions and feedback are welcome.
+## 📜 Credits & Context
+This project was developed as part of the **Python** module at **KDBM Datalabs**.
+
+**Objective:** To demonstrate proficiency in building asynchronous REST APIs with FastAPI, managing relational data with PostgreSQL, and containerizing applications using Docker & Docker Compose for Linux-based environments.
