@@ -7,7 +7,7 @@ router = APIRouter(prefix="/suppliers", tags=["Suppliers"])
 
 #CREATE SUPPLIER
 
-@router.post("/suppliers")
+@router.post("/")
 def create_supplier(supplier: SupplierCreate):
     conn = get_connection()
     cur = conn.cursor()
@@ -50,7 +50,7 @@ def create_supplier(supplier: SupplierCreate):
             conn.close()
     
 #READ ALL SUPPLIERS
-@router.get("/suppliers")
+@router.get("/")
 def get_suppliers():
     conn = get_connection()
     cur = conn.cursor()
@@ -85,7 +85,7 @@ def get_suppliers():
             conn.close()
 
 #SEARCH SUPPLIER
-@router.get("/suppliers/search")
+@router.get("/search")
 def search_supplier(name: Optional[str]=None, tax_id: Optional[str]=None):
     conn = None
     cur = None
@@ -143,7 +143,7 @@ def search_supplier(name: Optional[str]=None, tax_id: Optional[str]=None):
 
 
 #READ ONE SUPPLIER
-@router.get("/suppliers/{supplier_id}")
+@router.get("/{supplier_id}")
 def get_supplier(supplier_id: int):
     try:
         conn = get_connection()
@@ -176,7 +176,7 @@ def get_supplier(supplier_id: int):
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 #UPDATE SUPPLIER
-@router.put("/supplier/{supplier_id}")
+@router.put("/{supplier_id}")
 def update_supplier(supplier_id: int, supplier: SupplierUpdate):
     try:
         conn = get_connection()
@@ -233,7 +233,7 @@ def update_supplier(supplier_id: int, supplier: SupplierUpdate):
 
     
 #DELETE supplier
-@router.delete("/suppliers/{supplier_id}")
+@router.delete("/{supplier_id}")
 def delete_supplier(supplier_id: int):
     conn = get_connection()
     cur = conn.cursor()

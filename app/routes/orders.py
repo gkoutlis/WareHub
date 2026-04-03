@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from psycopg2.extras import RealDictCursor
+from typing import Optional
 from database import get_connection
-from schemas import OrderCreate, OrderUpdate, OrderStatus
+from schemas import OrderCreate, OrderStatus
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
@@ -93,6 +94,57 @@ def get_orders():
             conn.close()
 
 #SEARCH ORDER
+@router.get("/")
+def search_orders(
+    customer_name: Optional[str] = None,
+    status: Optional[str] = None,
+    product_id: Optional[int] = None
+):
+    if not customer_name and not status and not product_id:
+        raise HTTPException(status_code=400, detail="Provide at least one search parameter")
+
+    conn = None
+    cur = None
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+
+        query = "SELECT id, customer_name, product_id, quantity, status, created_at FROM orders WHERE 1=1"
+        params = []
+
+        if customer_name:
+            query += " AND customer_name ILIKE %s"
+            params.append(f"%{customer_name}%")
+        if status:
+            query += " AND status = %s"
+            params.append(status)
+        if product_id:
+            query += " AND product_id = %s"
+            params.append(product_id)
+
+        cur.execute(query, tuple(params))
+        rows = cur.fetchall()
+
+        results = []
+        for row in rows:
+            results.append({
+                "id": row[0],
+                "customer_name": row[1],
+                "product_id": row[2],
+                "quantity": row[3],
+                "status": row[4],
+                "created_at": str(row[5])
+            })
+
+        return {"orders": results}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {e}")
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 #READ ONE ORDER
 @router.get("/{order_id}")

@@ -11,7 +11,7 @@ router = APIRouter(prefix="/products", tags=["Products"])
 
 #CREATE product
 
-@router.post("/products")
+@router.post("/")
 def create_product(product: ProductCreate):
     try:
         conn = get_connection()
@@ -53,7 +53,7 @@ def create_product(product: ProductCreate):
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 #READ ALL PRODUCTS
-@router.get("/products")
+@router.get("/")
 def get_products():
     try:
         conn = get_connection()
@@ -88,7 +88,7 @@ def get_products():
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 #SEARCH PRODUCT
-@router.get("/products/search")
+@router.get("/search")
 def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
 
     try:
@@ -143,7 +143,7 @@ def search_products(name: Optional[str]=None, in_stock: Optional[bool]=None):
 
 
 #READ ONE PRODUCT
-@router.get("/products/{product_id}")
+@router.get("/{product_id}")
 def get_product(product_id: int):
     try:
         conn = get_connection()
@@ -176,7 +176,7 @@ def get_product(product_id: int):
             conn.close()
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 #UPDATE PRODUCT
-@router.put("/products/{product_id}")
+@router.put("/{product_id}")
 def update_product(product_id: int, product: ProductUpdate):
     try:
         conn = get_connection()
@@ -233,7 +233,7 @@ def update_product(product_id: int, product: ProductUpdate):
 
 #DELETE PRODUCT
 
-@router.delete("/products/{product_id}")
+@router.delete("/{product_id}")
 def delete_product(product_id: int):
     try:
         conn = get_connection()
@@ -272,7 +272,7 @@ def delete_product(product_id: int):
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
     
 #UPDATE STOCK
-@router.patch("/products/{product_id}/stock")
+@router.patch("/{product_id}/stock")
 def update_stock(product_id:int, stock: StockUpdate):
     try:
         conn = get_connection()
@@ -326,7 +326,7 @@ def update_stock(product_id:int, stock: StockUpdate):
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 #GET STATS
-@router.get("/products/stats")
+@router.get("/stats")
 def get_stats():
     try:
         conn = get_connection()
