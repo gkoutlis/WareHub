@@ -8,6 +8,7 @@ This project is a **Warehouse Management System (WMS)** 🏭 designed as a portf
 - **Python** 🐍 – core programming language
 - **FastAPI** ⚡ – web framework for building REST APIs
 - **PostgreSQL** 🐘 – relational database
+- **Pandas** 🐼 – data processing and Excel cleaning
 - **Docker & Docker Compose** 🐳 – containerized development and deployment
 - **psycopg2** – PostgreSQL adapter for Python
 - **Swagger UI / Postman** 📬 – for API testing
@@ -30,6 +31,12 @@ This project is a **Warehouse Management System (WMS)** 🏭 designed as a portf
   - Foreign keys ensure data integrity
 - **Seed Data** 🌱
   - Pre-populated database with sample suppliers, products, and orders for testing and demo
+- **Excel Import & Data Cleaning** 📑
+  - Import `.xlsx` and `.xls` files
+  - Clean missing or invalid values using Pandas
+  - Normalize column names and formats
+  - Remove duplicates before database insertion
+  - Prepare structured data for warehouse operations    
 
 
 ---
