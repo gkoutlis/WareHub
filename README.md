@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is a **Warehouse Management System (WMS)** 🏭 designed as a portfolio-ready backend application. It provides full CRUD (Create, Read, Update, Delete) functionality for managing **products, suppliers, and orders**, including stock management and search capabilities.
+This project is a **Warehouse Management System (WMS)** 🏭 designed as a portfolio-ready backend application. It provides full CRUD (Create, Read, Update, Delete) functionality for managing products, suppliers, and orders, including stock management and search capabilities. The system also supports Excel file import and data cleaning using Pandas for efficient warehouse data processing and preparation.
 
 ### Tech Stack 🛠️
 - **Python** 🐍 – core programming language
